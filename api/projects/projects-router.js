@@ -25,11 +25,27 @@ router.get('/:id', validateProjectID, (req, res, next) => {
 });
 
 router.post('/', validateProjectInput, (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.insert({
+        name: req.body.name,
+        description: req.body.description,
+        completed: req.body.completed,
+    })
+        .then(newProject => {
+            res.status(201).json(newProject)
+        })
+        .catch(next)
 });
 
 router.put('/:id', validateProjectID, validateProjectInput, (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.update(req.params.id, {
+        description: req.description,
+        name: req.name,
+        completed: req.completed,
+    })
+        .then(updatedProject => {
+            res.status(200).json(updatedProject);
+        })
+        .catch(next)
 });
 
 router.delete('/:id', validateProjectID, (req, res, next) => {
@@ -41,7 +57,11 @@ router.delete('/:id', validateProjectID, (req, res, next) => {
 });
 
 router.get('/:id/actions', validateProjectID, (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.getProjectActions(req.params.id)
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch(next)
 });
 
 router.use((err, req, res, next) => {

@@ -20,9 +20,10 @@ async function validateProjectID(req, res, next) {
 };
 
 function validateProjectInput(req, res, next) { 
-    const { name, description } = req.body;
+    const { name, description, completed } = req.body;
     // would be better to create a yup schema to handle this complex conditional stuff
     if(
+        Object.keys(req.body).length !== 3 ||
         !name ||
         !name.trim() ||
         !description ||
@@ -32,6 +33,7 @@ function validateProjectInput(req, res, next) {
             message: 'please provide a valid name and description for this project' 
         });
     } else {
+        req.completed = completed;
         req.name = name.trim();
         req.description = description.trim();
         next();
