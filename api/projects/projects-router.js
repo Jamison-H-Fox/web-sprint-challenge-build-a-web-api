@@ -9,11 +9,19 @@ const router = express.Router();
 const Project = require('./projects-model');
 
 router.get('/', (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.get()
+        .then(projects => {
+            res.status(200).json(projects);
+        })
+        .catch(next)
 });
 
 router.get('/:id', validateProjectID, (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.get(req.params.id)
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch(next)
 });
 
 router.post('/', validateProjectInput, (req, res, next) => {
@@ -25,7 +33,11 @@ router.put('/:id', validateProjectID, validateProjectInput, (req, res, next) => 
 });
 
 router.delete('/:id', validateProjectID, (req, res, next) => {
-    res.status(200).json({ message: 'we gotta build this out still tho' })
+    Project.remove(req.params.id)
+        .then(project => {
+            res.status(200).json(project)
+        })
+        .catch(next)
 });
 
 router.get('/:id/actions', validateProjectID, (req, res, next) => {
