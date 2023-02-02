@@ -22,10 +22,9 @@ async function validateActionID(req, res, next) {
 };
 
 function validateActionInput(req, res, next) {
-    const { project_id, description, notes } = req.body;
+    const { description, notes, completed } = req.body;
     // would be better to create a yup schema to handle this complex conditional stuff
     if( // if req.body is malformed, res 400
-        !project_id ||
         !description ||
         !description.trim() ||
         description.length > 128 ||
@@ -36,6 +35,7 @@ function validateActionInput(req, res, next) {
             message: 'please provide a valid description, notes, and project_id for this action'
         });
     } else { // else append description and notes to req
+        req.completed = completed;
         req.description = description.trim();
         req.notes = notes.trim();
         next();        
@@ -43,14 +43,21 @@ function validateActionInput(req, res, next) {
 };
 
 async function validateProjectID(req, res, next) {
-    try {
-        const project = await Project.get(req.body.project_id);
-        if(!project) {            
-            res.status(404).json({ message: `there is no project with id ${project_id}` })
-        } else {
-            next()
-        }
-    } catch(err) {
-        res.status(500).json({ message: 'there was a problem finding that project' });
-    };
+    const { project_id } = req.body;
+    if(!project_id) {
+        res.status(400).json({
+            message: 'please provide a valid description, notes, and project_id for this action'
+        });
+    } else {
+        try {
+            const project = await Project.get(req.body.project_id);
+            if(!project) {
+                res.status(404).json({ message: `there is no project with id ${project_id}` })
+            } else {
+                next()
+            }
+        } catch(err) {
+            res.status(500).json({ message: 'there was a problem finding that project' });
+        };
+    }
 };

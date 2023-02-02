@@ -38,11 +38,19 @@ router.post('/', validateProjectID, validateActionInput, (req, res, next) => {
 });
 
 router.put('/:id', validateActionID, validateActionInput, (req, res, next) => {
-    res.status(200).json({ message: 'we still gotta build dis shit out'})
-});
+    Action.update( req.params.id, { description: req.description, notes: req.notes, completed: req.completed })
+        .then(updatedAction => {
+            res.status(200).json(updatedAction)
+        })
+        .catch(next)
+}); // handle completed?????? how tho?????
 
 router.delete('/:id', validateActionID, (req, res, next) => {
-    res.status(200).json({ message: 'we still gotta build dis shit out'})
+    Action.remove(req.params.id)
+        .then(removedAction => {
+            res.status(200).json(removedAction);
+        })
+        .catch(next);
 });
 
 router.use((err, req, res, next) => {
