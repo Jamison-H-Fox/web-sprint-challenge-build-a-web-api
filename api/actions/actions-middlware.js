@@ -1,1 +1,14 @@
-// add middlewares here related to actions
+const Action = require('./actions-model');
+
+module.exports = {
+    validateID,
+    validateInput
+};
+
+function validateID() {
+    
+};
+
+function validateInput() {
+
+};
