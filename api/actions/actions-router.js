@@ -1,6 +1,7 @@
 const express = require('express');
 const {
-
+    validateActionID,
+    validateActionInput
 } = require('./actions-middlware');
 
 const router = express.Router();
@@ -11,19 +12,19 @@ router.get('/', (req, res, next) => {
     res.status(200).json({ message: 'we still gotta build dis shit out'})
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', validateActionID, (req, res, next) => {
     res.status(200).json({ message: 'we still gotta build dis shit out'})
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', validateActionInput, (req, res, next) => {
     res.status(200).json({ message: 'we still gotta build dis shit out'})
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', validateActionID, validateActionInput, (req, res, next) => {
     res.status(200).json({ message: 'we still gotta build dis shit out'})
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', validateActionID, (req, res, next) => {
     res.status(200).json({ message: 'we still gotta build dis shit out'})
 });
 

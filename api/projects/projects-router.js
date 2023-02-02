@@ -1,6 +1,7 @@
 const express = require('express');
 const {
-
+    validateProjectID,
+    validateProjectInput,
 } = require('./projects-middleware');
 
 const router = express.Router();
@@ -11,23 +12,23 @@ router.get('/', (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
-router.get('/:id', (req, res, next) => {
+router.get('/:id', validateProjectID, (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
-router.post('/', (req, res, next) => {
+router.post('/', validateProjectInput, (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
-router.put('/:id', (req, res, next) => {
+router.put('/:id', validateProjectID, validateProjectInput, (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
-router.delete('/:id', (req, res, next) => {
+router.delete('/:id', validateProjectID, (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
-router.get('/:id/actions', (req, res, next) => {
+router.get('/:id/actions', validateProjectID, (req, res, next) => {
     res.status(200).json({ message: 'we gotta build this out still tho' })
 });
 
