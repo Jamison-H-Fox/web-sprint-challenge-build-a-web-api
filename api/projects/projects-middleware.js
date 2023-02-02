@@ -19,13 +19,21 @@ async function validateProjectID(req, res, next) {
     };
 };
 
-function validateProjectInput(req, res, next) {
-    const { project_id, description, notes } = req.body;
-    if(!project_id || !description || !description.trim() || description.length > 128 || !notes || !notes.trim()){
-        res.status(400).json({ message: 'please provide a valid description and notes'});
+function validateProjectInput(req, res, next) { 
+    const { name, description } = req.body;
+    // would be better to create a yup schema to handle this complex conditional stuff
+    if(
+        !name ||
+        !name.trim() ||
+        !description ||
+        !description.trim()
+    ) {
+        res.status(400).json({ 
+            message: 'please provide a valid name and description for this project' 
+        });
     } else {
+        req.name = name.trim();
         req.description = description.trim();
-        req.notes = notes.trim();
         next();
     }
 };
